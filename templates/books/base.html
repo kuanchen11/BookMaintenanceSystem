@@ -23,17 +23,17 @@
         <div class=" col-sm-1" style="text-align: center;">
             <button class="btn btn-light" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
-                <img width="30" height="30" alt="menu">
+                <img src="{% static 'images/menu.png' %}" width="30" height="30" alt="menu">
             </button>
         </div>
         <a href="{% url 'Book' %}" class="navbar-brand mx-auto col-sm-10"
             style="font-weight: bold;text-align: center;">
-            <img width="30" height="30" class="d-inline-block align-top" alt="logo">
+            <img src="{% static 'images/logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="logo">
             <span style="vertical-align: middle;">圖書管理系統</span>
         </a>
         <div class="col-sm-1" style="text-align: center;">
             {% if user.is_authenticated %}
-            <a type="button" class="btn" href="{% url 'Logout' %}" style="color: white; background-color: #5ca2e7;">Log Out</a>
+            <a type="button" class="btn" href="{% url 'log_out' %}" style="color: white; background-color: #5ca2e7;">Log Out</a>
             {% else %}
             <a type="button" class="btn btn-outline-light me-2" href="{% url 'Book' %}">Login</a>
             <a type="button" class="btn btn-warning" href="">Sign-up</a>
