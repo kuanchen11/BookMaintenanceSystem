@@ -1,3 +1,9 @@
 .table th, .table td{
     text-align: center;
 }
+
+.lookup-form-bg {
+    border: 2px solid #ccc; /* 設定邊框寬度和顏色 */
+    border-radius: 10px; /* 設定圓角 */
+    padding: 10px; /* 加入內邊距以增加舒適度 */
+}

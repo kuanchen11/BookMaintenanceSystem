@@ -1,8 +1,54 @@
 {% extends "books/base.html" %}
-{% block title %}登入{% endblock %}
+{% block title %}書籍查詢{% endblock %}
 {% block content %}
 {% load static %}
+<br>
+<h2>書籍查詢</h2>
 
-<h1>123</h1>
+
+<div class="lookup-form-bg">
+    <form class="row g-3" action="{% url 'Book' %}" method="POST">
+        {% csrf_token %}
+        <div class="col-12">
+        <label for="book-title" class="form-label">書名</label>
+        <input type="text" class="form-control" id="book-title">
+        </div>
+        <div class="col-md-6">
+            <label for="inputState" class="form-label">書籍類別</label>
+            <select id="inputState" class="form-select" name="category_id">
+            <option value="{{ category_name }}"><strong>-</strong></option>
+            {% for category_id, category_name in categories %}
+                <option value="{{ category_id }}">{{ category_name }}</option>
+            {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for="inputState" class="form-label">借閱人</label>
+            <select id="inputState" class="form-select" name="borrower_id">
+            <option value=""><strong>-</strong></option>
+            {% for borrower_id, username in usernames %}
+                <option value="{{ borrower_id }}">{{ username }}</option>
+            {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for="inputState" class="form-label">借閱狀態</label>
+            <select id="inputState" class="form-select" name="book_status">
+            <option value=""><strong>-</strong></option>
+            {% for book_status, status in bookstatus %}
+                <option value="{{ book_status }}">{{ status }}</option>
+            {% endfor %}
+            </select>
+        </div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button type="submit" class="btn btn-outline-primary me-md-2">查詢</button>
+        <button type="button" class="btn btn-outline-secondary me-md-2" onclick="clearForm()">清除</button>
+        <button type="button" class="btn btn-outline-success">新增</button>
+        </div>
+  </form>
+</div>
+
+
+<script src="{% static 'js/scripts.js' %}"></script>
 
 {% endblock %}

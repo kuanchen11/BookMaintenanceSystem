@@ -25,6 +25,7 @@ urlpatterns = [
     path("login/", aviews.sign_in, name='login'),
     path("log_out/", aviews.log_out, name='log_out'),
     path("register/", aviews.register, name='register'),
+    path("", bviews.book, name='Book'),
     path("book/", bviews.book, name='Book'),
 
 
