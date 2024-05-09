@@ -12,12 +12,13 @@ def book(request):
     usernames = list(Student.objects.values_list('id', 'username'))
     bookstatus = list(BookCode.objects.values_list('code_id', 'code_name'))
     books = BookData.objects.all()
+    students = Student.objects.all()
 
     if request.method == 'POST':
-        book_name = request.POST.get('book_title')
-        category_id = request.POST.get('category')
-        borrower_id = request.POST.get('borrower')
-        book_status = request.POST.get('status')
+        book_name = request.POST.get('book-title')
+        category_id = request.POST.get('category_id')
+        borrower_id = request.POST.get('borrower_id')
+        book_status = request.POST.get('book_status')
         form = BookSearchForm(request.POST)
         # 構建查詢條件
         conditions = Q()
@@ -32,6 +33,7 @@ def book(request):
         
         
         books = books.filter(conditions)
+        
         
         if form.is_valid():
             # 在此處理表單提交

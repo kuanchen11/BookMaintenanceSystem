@@ -1,5 +1,8 @@
 .table th, .table td{
     text-align: center;
+    max-width: 200px;
+    word-wrap: break-word;
+    white-space: normal;
 }
 
 .lookup-form-bg {

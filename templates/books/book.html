@@ -11,7 +11,7 @@
         {% csrf_token %}
         <div class="col-12">
         <label for="book-title" class="form-label">書名</label>
-        <input type="text" class="form-control" id="book-title">
+        <input type="text" class="form-control" id="book-title" name="book-title">
         </div>
         <div class="col-md-6">
             <label for="inputState" class="form-label">書籍類別</label>
@@ -42,11 +42,43 @@
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <button type="submit" class="btn btn-outline-primary me-md-2">查詢</button>
-        <button type="button" class="btn btn-outline-secondary me-md-2" onclick="clearForm()">清除</button>
+        <button type="reset" class="btn btn-outline-secondary me-md-2">清除</button>
         <button type="button" class="btn btn-outline-success">新增</button>
         </div>
   </form>
 </div>
+<br>
+<hr>
+
+<table class="table">
+    <thead class="table-light">
+      <tr>
+        <th scope="col">書籍類別</th>
+        <th scope="col">書名</th>
+        <th scope="col">出版日期</th>
+        <th scope="col">借閱狀態</th>
+        <th scope="col">借閱人</th>
+        <th scope="col">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+        <tr>
+        <td>{{ book.category.category_name }}</td>
+        <td><a href="#">{{ book.name }}</a></td>
+        <td>{{ book.publish_date|date:'Y/m/d' }}</td>
+        <td>{{ book.status }}</td>
+        <td>{% for student in students %}{% if book.keeper_id == student.id %}{{ student.username }}{% endif %}{% endfor %}</td>
+        <td>
+            <button type="button" class="btn btn-outline-primary">借閱紀錄</button>
+            <button type="button" class="btn btn-outline-success">編輯</button>
+            <button type="button" class="btn btn-outline-danger">刪除</button>
+        </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+
 
 
 <script src="{% static 'js/scripts.js' %}"></script>
