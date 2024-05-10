@@ -10,3 +10,8 @@
     border-radius: 10px; /* 設定圓角 */
     padding: 10px; /* 加入內邊距以增加舒適度 */
 }
+
+.vertical-align-middle {
+    vertical-align: middle;
+  }
+  

@@ -43,7 +43,7 @@
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <button type="submit" class="btn btn-outline-primary me-md-2">查詢</button>
         <button type="reset" class="btn btn-outline-secondary me-md-2">清除</button>
-        <button type="button" class="btn btn-outline-success">新增</button>
+        <button type="button" class="btn btn-outline-success" onclick="window.location.href='{% url 'BookCreate' %}'">新增</button>
         </div>
   </form>
 </div>
@@ -65,13 +65,13 @@
         {% for book in books %}
         <tr>
         <td>{{ book.category.category_name }}</td>
-        <td><a href="#">{{ book.name }}</a></td>
+        <td><a href="{% url 'BookDetails' %}">{{ book.name }}</a></td>
         <td>{{ book.publish_date|date:'Y/m/d' }}</td>
         <td>{{ book.status }}</td>
         <td>{% for student in students %}{% if book.keeper_id == student.id %}{{ student.username }}{% endif %}{% endfor %}</td>
         <td>
-            <button type="button" class="btn btn-outline-primary">借閱紀錄</button>
-            <button type="button" class="btn btn-outline-success">編輯</button>
+            <button type="button" class="btn btn-outline-primary" onclick="window.location.href='{% url 'BookLendRec' %}'">借閱紀錄</button>
+            <button type="button" class="btn btn-outline-success" onclick="window.location.href='{% url 'BookEdit' %}'">編輯</button>
             <button type="button" class="btn btn-outline-danger">刪除</button>
         </td>
         </tr>

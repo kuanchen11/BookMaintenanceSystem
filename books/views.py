@@ -42,3 +42,22 @@ def book(request):
         form = BookSearchForm()
     return render(request, 'books/book.html', locals())
 
+
+@login_required(login_url='/login/')
+def book_create(request):
+    return render(request, 'books/bookcreate.html', locals())
+
+
+@login_required(login_url='/login/')
+def book_edit(request):
+    return render(request, 'books/bookedit.html', locals())
+
+
+@login_required(login_url='/login/')
+def book_details(request):
+    return render(request, 'books/details.html', locals())
+
+
+@login_required(login_url='/login/')
+def book_lendrec(request):
+    return render(request, 'books/booklendrec.html', locals())
