@@ -157,5 +157,7 @@ def book_details(request, book_id):
 
 
 @login_required(login_url='/login/')
-def book_lendrec(request):
+def book_lendrec(request, book_id):
+    book = get_object_or_404(BookData, id=book_id)
+    lend_records = BookLendRecord.objects.filter(book=book)
     return render(request, 'books/booklendrec.html', locals())

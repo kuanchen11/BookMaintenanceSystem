@@ -3,10 +3,34 @@
 {% block content %}
 {% load static %}
 <br>
-<h2>書籍借閱紀錄</h2>
+
+<div class="d-flex justify-content-between align-items-center mb-2">
+    <h2>書籍借閱紀錄</h2>
+    <div>
+        <button type="submit" class="btn btn-outline-primary" onclick="window.location.href='{% url 'Book' %}'">Back</button>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead align="center">
+        <tr>
+            <th><strong>借閱日期</strong></th>
+            <th><strong>借閱人編號</strong></th>
+            <th><strong>借閱人姓名</strong></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for lend_record in lend_records %}
+            <tr align="center">
+                <td>{{ lend_record.borrow_date|date:"Y/m/d"}}</td>
+                <td>{{ lend_record.borrower.id }}</td>
+                <td>{{ lend_record.borrower }}</td>
+               
+            </tr>
+        {% endfor %}
+    </tbody> 
+</table>
 
 
-
-<script src="{% static 'js/scripts.js' %}"></script>
 
 {% endblock %}

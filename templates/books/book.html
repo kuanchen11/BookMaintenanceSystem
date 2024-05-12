@@ -79,7 +79,7 @@
             {% endif %}
         </td>
         <td>
-            <button type="button" class="btn btn-outline-primary" onclick="window.location.href='{% url 'BookLendRec' %}'">借閱紀錄</button>
+            <button type="button" class="btn btn-outline-primary" onclick="window.location.href='{% url 'BookLendRec' book.id %}'">借閱紀錄</button>
             <button type="button" class="btn btn-outline-success" onclick="window.location.href='{% url 'BookEdit' book.id %}'">編輯</button>
             <button type="button" class="btn btn-outline-danger" id="delete-book" data-book-id="{{ book.id }}" data-book-name="{{ book.name }}">刪除</button>
         </td>
