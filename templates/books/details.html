@@ -14,22 +14,22 @@
 <div class="lookup-form-bg">
     <form class="row g-2">
         <div class="col-12">
-          <label for="inputAddress" class="form-label"><span style="color:red;">* </span><strong>書名</strong></label>
+          <label for="inputAddress" class="form-label">書名<span style="color:red;"> *</span></label>
           <input type="text" class="form-control" id="inputAddress" value="{{book.name}}" readonly>
         </div>
 
         <div class="col-12">
-          <label for="inputAddress2" class="form-label"><span style="color:red;">* </span><strong>書籍類別</strong></label>
+          <label for="inputAddress2" class="form-label">書籍類別<span style="color:red;"> *</span></label>
           <input type="text" class="form-control" id="inputAddress2" value="{{book.category.category_name}}" disabled>
         </div>
 
         <div class="col-12">
-            <label for="inputAddress" class="form-label"><strong>作者</strong></label>
+            <label for="inputAddress" class="form-label">作者</label>
             <input type="text" class="form-control" id="inputAddress" value="{{book.author}}" readonly>
         </div>
 
         <div class="col-12">
-            <label for="inputAddress" class="form-label"><strong>出版社</strong></label>
+            <label for="inputAddress" class="form-label">出版社</label>
             {% if book.publisher == None %}
                 <input type="text" class="form-control" id="inputAddress" value="" readonly>
             {% else %}
@@ -38,12 +38,12 @@
         </div>
 
         <div class="col-12">
-            <label for="inputAddress" class="form-label"><strong>出版日期</strong></label>
+            <label for="inputAddress" class="form-label">出版日期</label>
             <input type="text" class="form-control" id="inputAddress" value="{{book.publish_date|date:"Y/m/d"}}" readonly>
         </div>
 
         <div class="col-12">
-            <label for="floatingTextarea2" class="form-label"><strong>內容簡介</strong></label>
+            <label for="floatingTextarea2" class="form-label">內容簡介</label>
             {% if book.summary == None %}
                 <textarea class="form-control" id="floatingTextarea2" style="height: 200px" readonly></textarea>
             {% else %}
@@ -52,17 +52,17 @@
         </div>
 
         <div class="col-12">
-            <label for="inputAddress" class="form-label"><strong>價格</strong></label>
+            <label for="inputAddress" class="form-label">價格</label>
             <input type="text" class="form-control" id="inputAddress" value="{{book.price|default:""}}" readonly>
         </div>
 
         <div class="col-12">
-            <label for="inputAddress2" class="form-label"><strong>借閱人</strong></label>
-            <input type="text" class="form-control" id="inputAddress2" value="{{keeper_name|default:"---------"}}" disabled>
+            <label for="inputAddress2" class="form-label">借閱人</label>
+            <input type="text" class="form-control" id="inputAddress2" value="{{keeper_name|default:"-"}}" disabled>
         </div> 
 
         <div class="col-12">
-            <label for="inputAddress" class="form-label"><span style="color:red;">* </span><strong>借閱狀態</strong></label>
+            <label for="inputAddress" class="form-label">借閱狀態<span style="color:red;"> *</span></label>
             <input type="text" class="form-control" id="inputAddress" value="{{book.status.code_name}}" disabled>
         </div>
     </form>
@@ -70,10 +70,12 @@
     <div class="col-12">
         <br>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button type="submit" class="btn btn-success" onclick="window.location.href='{% url 'BookEdit' book.id %}'">修改</button>
+            <button type="submit" class="btn btn-outline-success" onclick="window.location.href='{% url 'BookEdit' book.id %}'">編輯</button>
         </div>
     </div> 
 </div>
-
+<br>
+<br>
+<br>
 
 {% endblock %}

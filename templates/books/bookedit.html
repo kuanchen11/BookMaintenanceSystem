@@ -88,6 +88,7 @@
         <script src="{% static 'js/bookcreate.js' %}"></script>
 
         <div class="col-12">
+            <label><span style="color:red;">* </span>為必填</label>
             <br>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <button type="button" class="btn btn-outline-danger" id="delete-book" data-book-id="{{ book.id }}" data-book-name="{{ book.name }}">刪除</button>

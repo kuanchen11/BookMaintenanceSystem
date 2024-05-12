@@ -11,8 +11,8 @@
     </div>
 </div>
 
-<table class="table table-striped">
-    <thead align="center">
+<table class="table">
+    <thead class="table-light">
         <tr>
             <th><strong>借閱日期</strong></th>
             <th><strong>借閱人編號</strong></th>
@@ -21,7 +21,7 @@
     </thead>
     <tbody>
         {% for lend_record in lend_records %}
-            <tr align="center">
+            <tr>
                 <td>{{ lend_record.borrow_date|date:"Y/m/d"}}</td>
                 <td>{{ lend_record.borrower.id }}</td>
                 <td>{{ lend_record.borrower }}</td>
