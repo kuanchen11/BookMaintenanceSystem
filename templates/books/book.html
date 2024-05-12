@@ -65,7 +65,7 @@
         {% for book in books %}
         <tr>
         <td>{{ book.category.category_name }}</td>
-        <td><a href="{% url 'BookDetails' %}">{{ book.name }}</a></td>
+        <td><a href="{% url 'BookDetails' book.id %}" style="text-decoration:none;">{{ book.name }}</a></td>
         <td>{{ book.publish_date|date:'Y/m/d' }}</td>
         <td>{{ book.status }}</td>
         <td>{% if book.keeper_id %}
@@ -80,7 +80,7 @@
         </td>
         <td>
             <button type="button" class="btn btn-outline-primary" onclick="window.location.href='{% url 'BookLendRec' %}'">借閱紀錄</button>
-            <button type="button" class="btn btn-outline-success" onclick="window.location.href='{% url 'BookEdit' %}'">編輯</button>
+            <button type="button" class="btn btn-outline-success" onclick="window.location.href='{% url 'BookEdit' book.id %}'">編輯</button>
             <button type="button" class="btn btn-outline-danger" id="delete-book" data-book-id="{{ book.id }}" data-book-name="{{ book.name }}">刪除</button>
         </td>
         </tr>

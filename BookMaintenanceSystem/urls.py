@@ -30,8 +30,8 @@ urlpatterns = [
     path("", bviews.book, name='Book'),
     path("book/", bviews.book, name='Book'),
     path("book/create/", bviews.book_create, name='BookCreate'),
-    path("book/edit/", bviews.book_edit, name='BookEdit'),
-    path("book/details/", bviews.book_details, name='BookDetails'),
+    path("book/edit/<int:book_id>", bviews.book_edit, name='BookEdit'),
+    path("book/details/<int:book_id>", bviews.book_details, name='BookDetails'),
     path("book/lendrec/", bviews.book_lendrec, name='BookLendRec'),
     path("book/delete/<int:book_id>", bviews.book_delete, name='Delete'),
 
