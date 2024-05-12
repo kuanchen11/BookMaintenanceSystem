@@ -19,6 +19,8 @@ from django.contrib import admin
 from django.urls import path
 import accounts.views as aviews
 import books.views as bviews
+from . import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -31,6 +33,7 @@ urlpatterns = [
     path("book/edit/", bviews.book_edit, name='BookEdit'),
     path("book/details/", bviews.book_details, name='BookDetails'),
     path("book/lendrec/", bviews.book_lendrec, name='BookLendRec'),
+    path("book/delete/<int:book_id>", bviews.book_delete, name='Delete'),
 
 
-]
+] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

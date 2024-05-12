@@ -81,7 +81,7 @@
         <td>
             <button type="button" class="btn btn-outline-primary" onclick="window.location.href='{% url 'BookLendRec' %}'">借閱紀錄</button>
             <button type="button" class="btn btn-outline-success" onclick="window.location.href='{% url 'BookEdit' %}'">編輯</button>
-            <button type="button" class="btn btn-outline-danger">刪除</button>
+            <button type="button" class="btn btn-outline-danger" id="delete-book" data-book-id="{{ book.id }}" data-book-name="{{ book.name }}">刪除</button>
         </td>
         </tr>
         {% endfor %}
@@ -89,7 +89,7 @@
   </table>
 
 
-
+<script src="{% static 'js/bookdelete.js' %}"></script>
 <script src="{% static 'js/book.js' %}"></script>
 
 {% endblock %}

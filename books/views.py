@@ -6,6 +6,9 @@ from .forms import BookSearchForm
 from accounts.models import Student
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 @login_required(login_url='/login/')
@@ -43,6 +46,17 @@ def book(request):
     else:
         form = BookSearchForm()
     return render(request, 'books/book.html', locals())
+
+@csrf_exempt
+@login_required(login_url='/login/')
+def book_delete(request, book_id):
+    book = get_object_or_404(BookData, id=book_id)
+    # 如果書籍狀態是借出中，則無法刪除
+    if book.status.code_id == 'B':
+        return JsonResponse({'message': 'unable'})
+    else:
+        book.delete()
+        return JsonResponse({'message': 'success'})
 
 
 @login_required(login_url='/login/')
