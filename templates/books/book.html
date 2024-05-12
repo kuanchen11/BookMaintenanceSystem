@@ -68,7 +68,16 @@
         <td><a href="{% url 'BookDetails' %}">{{ book.name }}</a></td>
         <td>{{ book.publish_date|date:'Y/m/d' }}</td>
         <td>{{ book.status }}</td>
-        <td>{% for student in students %}{% if book.keeper_id == student.id %}{{ student.username }}{% endif %}{% endfor %}</td>
+        <td>{% if book.keeper_id %}
+                {% for student in students %}
+                    {% if book.keeper_id == student.id %}
+                        {{ student.username }}
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                -
+            {% endif %}
+        </td>
         <td>
             <button type="button" class="btn btn-outline-primary" onclick="window.location.href='{% url 'BookLendRec' %}'">借閱紀錄</button>
             <button type="button" class="btn btn-outline-success" onclick="window.location.href='{% url 'BookEdit' %}'">編輯</button>
@@ -81,6 +90,6 @@
 
 
 
-<script src="{% static 'js/scripts.js' %}"></script>
+<script src="{% static 'js/book.js' %}"></script>
 
 {% endblock %}

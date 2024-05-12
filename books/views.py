@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from datetime import datetime
 from .models import BookCategory, BookData, BookLendRecord, BookCode
 from .forms import BookSearchForm
 from accounts.models import Student
@@ -45,6 +47,40 @@ def book(request):
 
 @login_required(login_url='/login/')
 def book_create(request):
+    categories = list(BookCategory.objects.values_list('category_id', 'category_name'))
+    usernames = list(Student.objects.values_list('id', 'username'))
+    bookstatus = list(BookCode.objects.values_list('code_id', 'code_name'))
+  
+    if request.method == "POST":
+        book_name = request.POST.get("book_name")
+        category_id = request.POST.get("category_id")
+        author = request.POST.get("book_author")
+        publisher = request.POST.get("publisher")
+        publish_date = request.POST.get("publish_date")
+        summary = request.POST.get("summary")
+        price = request.POST.get("price")
+        borrower_id = request.POST.get("borrower_id")
+        book_status = request.POST.get("book_status")
+
+        if price == '':
+            price = None
+        else:
+            price = int(price)
+            
+        if publish_date == '':
+            publish_date = None
+            
+        category = BookCategory.objects.get(category_id=category_id)
+        status = BookCode.objects.get(code_id=book_status)
+        book = BookData(name=book_name, category=category, author=author, publisher=publisher, publish_date=publish_date, summary=summary, price=price, keeper_id=borrower_id, status=status)
+        book.save()
+        
+        if borrower_id:
+            borrower = Student.objects.get(id=borrower_id)
+            lendrec = BookLendRecord(book=book, borrow=borrower, borrow_date=datetime.now().date())
+            lendrec.save()
+        return redirect(reverse('Book'))
+    
     return render(request, 'books/bookcreate.html', locals())
 
 
