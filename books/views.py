@@ -39,7 +39,7 @@ def book(request):
         
         books = books.filter(conditions)
         
-        
+
         if form.is_valid():
             # 在此處理表單提交
             pass
@@ -84,6 +84,8 @@ def book_create(request):
         if publish_date == '':
             publish_date = None
             
+        if borrower_id == '':
+            borrower_id = None
         category = BookCategory.objects.get(category_id=category_id)
         status = BookCode.objects.get(code_id=book_status)
         book = BookData(name=book_name, category=category, author=author, publisher=publisher, publish_date=publish_date, summary=summary, price=price, keeper_id=borrower_id, status=status)
@@ -120,13 +122,12 @@ def book_edit(request, book_id):
         borrower_id = request.POST.get("borrower_id")
         book_status = request.POST.get("book_status")
         
-        # 檢查價格是否是空字符串
+        
         if price == '':
             price = None
         else:
             price = int(price)
             
-        # 檢查出版日期是否是空字符串
         if publish_date == '':
             publish_date = None
         
@@ -140,9 +141,9 @@ def book_edit(request, book_id):
         # 如果有借閱者，新增借閱紀錄
         if borrower_id:
             borrower = Student.objects.get(id=borrower_id)
-            lend_record = BookLendRecord(book=book, borrow=borrower, borrow_date=datetime.now().date())
+            lend_record = BookLendRecord(book=book, borrower=borrower, borrow_date=datetime.now().date())
             lend_record.save()
-        return redirect(reverse('bookDetails', args=[book.id]))
+        return redirect(reverse('BookDetails', args=[book.id]))
     return render(request, 'books/bookedit.html', locals())
 
 
