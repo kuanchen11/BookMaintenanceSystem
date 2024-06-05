@@ -1,37 +1,39 @@
-$(document).ready(function () {
+$(document).ready(function() {
+    $('.delete-book').on('click', function() {
+        var bookId = $(this).data('book-id');
+        var bookName = $(this).data('book-name');
+        var bookStatus = $(this).data('book-status');
 
-    const deleteButton = document.getElementById('delete-book');
-
-    deleteButton.addEventListener('click', () => {
-        const bookName = document.getElementById('data-book-name').innerText;
-
-        const isBorrowed = checkIfBookIsBorrowed();
-
-        if (isBorrowed) {
+        if (checkIfBookIsBorrowed(bookStatus)) {
             alert('此書外借中無法刪除');
         } else {
             const confirmDelete = confirm(`是否刪除【${bookName}】？`);
 
             if (confirmDelete) {
-                deleteBook();
-                alert('刪除成功');
+                deleteBook(bookId);
             }
         }
     });
 
-    function checkIfBookIsBorrowed() {
-        if (document.getElementById('data-book-status').innerText === '已借出') {
-            return true;
-        } else {
-            return false;
-        }
+    function checkIfBookIsBorrowed(status) {
+        return status === '已借出';
     }
 
-    function deleteBook() {
-        const bookId = document.getElementById('data-book-id').innerText;
-        fetch(`book/delete/${bookId}`, {
-            method: 'DELETE',
-        })
+    function deleteBook(bookId) {
+        $.ajax({
+            url: `/book/delete/${bookId}`,
+            type: 'DELETE',
+            headers: {
+                'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
+            },
+            success: function(response) {
+                if (response.message === 'unable') {
+                    alert("此書外借中無法刪除");
+                } else if (response.message === 'success') {
+                    alert("刪除成功");
+                    window.location.href = '/book/';
+                }
+            }
+        });
     }
-
 });

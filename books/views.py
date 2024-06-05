@@ -50,12 +50,15 @@ def book(request):
 @csrf_exempt
 @login_required(login_url='/login/')
 def book_delete(request, book_id):
-    book = get_object_or_404(BookData, id=book_id)
-    if book.status.code_id == 'B':
-        return JsonResponse({'message': 'unable'})
+    if request.method == 'DELETE':
+        book = get_object_or_404(BookData, id=book_id)
+        if book.status.code_id == 'B':
+            return JsonResponse({'message': 'unable'})
+        else:
+            book.delete()
+            return JsonResponse({'message': 'success'})
     else:
-        book.delete()
-        return JsonResponse({'message': 'success'})
+        return JsonResponse({'message': 'invalid request'}, status=400)
 
 
 @login_required(login_url='/login/')
