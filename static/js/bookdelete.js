@@ -1,32 +1,37 @@
-$(document).ready(function() {
-    $(document).on('click', '#delete-book', function() {
-        var bookId = $(this).data('book-id');
-        var bookName = $(this).data('book-name');
-        console.log(bookId);
-        console.log(bookName);
-        if (confirm('確定要刪除書籍 : [' + bookName + '] 嗎?')) {
-            deleteBook(bookId);
-        }
+$(document).ready(function () {
 
-        function deleteBook(bookId) {
-            $.ajax({
-                url: '/book/delete/' + bookId,
-                type: 'POST',
-                headers: {
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                success: function(response) {
-                    //alert(response.message);
-                    if (response.message === 'unable') {
-                        alert("此書外借中，無法刪除");
-                    } else if (response.message === 'success'){
-                        alert("刪除成功");
-                        // 重新導向至書籍查詢頁面
-                        window.location.href = '/book/';
-                    }
-                },
-        
-            });
+    const deleteButton = document.getElementById('delete-book');
+
+    deleteButton.addEventListener('click', () => {
+        const bookName = document.getElementById('data-book-name').innerText;
+
+        const isBorrowed = checkIfBookIsBorrowed();
+
+        if (isBorrowed) {
+            alert('此書外借中無法刪除');
+        } else {
+            const confirmDelete = confirm(`是否刪除【${bookName}】？`);
+
+            if (confirmDelete) {
+                deleteBook();
+                alert('刪除成功');
+            }
         }
     });
+
+    function checkIfBookIsBorrowed() {
+        if (document.getElementById('data-book-status').innerText === '已借出') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function deleteBook() {
+        const bookId = document.getElementById('data-book-id').innerText;
+        fetch(`book/delete/${bookId}`, {
+            method: 'DELETE',
+        })
+    }
+
 });

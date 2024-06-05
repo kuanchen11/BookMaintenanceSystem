@@ -51,7 +51,6 @@ def book(request):
 @login_required(login_url='/login/')
 def book_delete(request, book_id):
     book = get_object_or_404(BookData, id=book_id)
-    # 如果書籍狀態是借出中，則無法刪除
     if book.status.code_id == 'B':
         return JsonResponse({'message': 'unable'})
     else:
@@ -106,7 +105,8 @@ def book_edit(request, book_id):
     categories = list(BookCategory.objects.values_list('category_id', 'category_name'))
     usernames = list(Student.objects.values_list('id', 'username'))
     bookstatus = list(BookCode.objects.values_list('code_id', 'code_name'))
-    
+    today = datetime.today()
+
     if book.keeper_id:
         keeper = get_object_or_404(Student, id=book.keeper_id)
         keeper_name = keeper.username
@@ -121,7 +121,6 @@ def book_edit(request, book_id):
         price = request.POST.get("price")
         borrower_id = request.POST.get("borrower_id")
         book_status = request.POST.get("book_status")
-        
         
         if price == '':
             price = None
@@ -161,4 +160,5 @@ def book_details(request, book_id):
 def book_lendrec(request, book_id):
     book = get_object_or_404(BookData, id=book_id)
     lend_records = BookLendRecord.objects.filter(book=book)
+    lend_records = lend_records.order_by('-id')
     return render(request, 'books/booklendrec.html', locals())

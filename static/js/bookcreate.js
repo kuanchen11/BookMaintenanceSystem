@@ -2,32 +2,48 @@ var codeBorrowed = 'B';
 var codeAvailable = 'Y';
 var codeUnavailable = 'N';
 $(document).ready(function() {
-
+    // Bind change event to borrower dropdown
     $('#borrower').change(function() {
+        var selectedBorrower = $(this).val();
+        var statusDropdown = $('#status');
         
-        console.log(codeBorrowed);
-        var borrowerId = $(this).val();
-        var statusSelect = $('#status');
+        // If borrower is selected, set status to "Borrowed" and disable borrower field
+        if (selectedBorrower) {
+            statusDropdown.val(codeBorrowed);
+            $('#borrower').prop('readonly', true);
+        } else {
+            // If borrower is not selected, enable borrower field
+            $('#borrower').prop('readonly', false);
+        }
+    });
+    
+    // Bind change event to status dropdown
+    $('#status').change(function() {
+        var selectedStatus = $(this).val();
+        var borrowerDropdown = $('#borrower');
         
-        // 清空狀態選單
-        statusSelect.val('');
-        
-        if (borrowerId) {
-            // 借閱人選擇了借閱人，則狀態選單設置為已借出
-            statusSelect.val(codeBorrowed);
+        // If status is "Available" or "Unavailable", clear and disable borrower field
+        if (selectedStatus === codeAvailable || selectedStatus === codeUnavailable) {
+            borrowerDropdown.val('');
+            borrowerDropdown.prop('readonly', true);
+        } else {
+            // If status is not "Available" or "Unavailable", enable borrower field
+            borrowerDropdown.prop('readonly', false);
         }
     });
 
-    $('#status').change(function() {
-        var statusValue = $(this).val();
-        var borrowerSelect = $('#borrower');
+    // Bind click event to submit button
+    $('#submit').click(function() {
+        var selectedStatus = $('#status').val();
+        var selectedBorrower = $('#borrower').val();
+        
+        // If status is "Borrowed" and borrower is not selected, show alert and prevent form submission
+        if (selectedStatus === codeBorrowed && !selectedBorrower) {
+            alert('請選擇借閱人。');
+            return false;
 
-        if (statusValue === codeAvailable || statusValue === codeUnavailable) {
-            // 禁用並清空借閱人選單
-            borrowerSelect.val('').prop('disabled', true);
-        } else {
-            // 啟用借閱人選單
-            borrowerSelect.prop('disabled', false);
         }
+        
+
     });
 });
