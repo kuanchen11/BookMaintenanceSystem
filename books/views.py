@@ -93,7 +93,7 @@ def book_create(request):
         
         if borrower_id:
             borrower = Student.objects.get(id=borrower_id)
-            lendrec = BookLendRecord(book=book, borrow=borrower, borrow_date=datetime.now().date())
+            lendrec = BookLendRecord(book=book, borrower=borrower, borrow_date=datetime.now().date())
             lendrec.save()
 
         return redirect(reverse('Book'))
