@@ -27,7 +27,7 @@
             <select id="borrower_id" class="form-select" name="borrower_id">
             <option value=""><strong>-</strong></option>
             {% for borrower_id, username in usernames %}
-            <option value="{{ borrower_id }}" {% if form.borrower_id.value == borrower_id %}selected{% endif %}>{{ username }}</option>
+            <option value="{{ borrower_id }}" {% if form.borrower_id.value|stringformat:"s" == borrower_id|stringformat:"s" %}selected{% endif %}>{{ username }}</option>
             {% endfor %}
             </select>
         </div>
