@@ -10,39 +10,39 @@
     <form class="row g-3" action="{% url 'Book' %}" method="POST">
         {% csrf_token %}
         <div class="col-12">
-        <label for="book-title" class="form-label">書名</label>
-        <input type="text" class="form-control" id="book-title" name="book-title">
+            <label for="book-title" class="form-label">書名</label>
+            <input type="text" class="form-control" id="book-title" name="book_title" value="{{ form.book_title.value }}">
         </div>
         <div class="col-md-6">
-            <label for="inputState" class="form-label">書籍類別</label>
-            <select id="inputState" class="form-select" name="category_id">
-            <option value="{{ category_name }}"><strong>-</strong></option>
+            <label for="category_id" class="form-label">書籍類別</label>
+            <select id="category_id" class="form-select" name="category_id">
+            <option value=""><strong>-</strong></option>
             {% for category_id, category_name in categories %}
-                <option value="{{ category_id }}">{{ category_name }}</option>
+            <option value="{{ category_id }}" {% if form.category_id.value == category_id %}selected{% endif %}>{{ category_name }}</option>
             {% endfor %}
             </select>
         </div>
         <div class="col-md-6">
-            <label for="inputState" class="form-label">借閱人</label>
-            <select id="inputState" class="form-select" name="borrower_id">
+            <label for="borrower_id" class="form-label">借閱人</label>
+            <select id="borrower_id" class="form-select" name="borrower_id">
             <option value=""><strong>-</strong></option>
             {% for borrower_id, username in usernames %}
-                <option value="{{ borrower_id }}">{{ username }}</option>
+            <option value="{{ borrower_id }}" {% if form.borrower_id.value == borrower_id %}selected{% endif %}>{{ username }}</option>
             {% endfor %}
             </select>
         </div>
         <div class="col-md-6">
-            <label for="inputState" class="form-label">借閱狀態</label>
-            <select id="inputState" class="form-select" name="book_status">
+            <label for="book_status" class="form-label">借閱狀態</label>
+            <select id="book_status" class="form-select" name="book_status">
             <option value=""><strong>-</strong></option>
             {% for book_status, status in bookstatus %}
-                <option value="{{ book_status }}">{{ status }}</option>
+            <option value="{{ book_status }}" {% if form.book_status.value == book_status %}selected{% endif %}>{{ status }}</option>
             {% endfor %}
             </select>
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <button type="submit" class="btn btn-outline-primary me-md-2">查詢</button>
-        <button type="reset" class="btn btn-outline-secondary me-md-2">清除</button>
+        <button type="button" class="btn btn-outline-secondary me-md-2" onclick="clearForm()">清除</button>
         <button type="button" class="btn btn-outline-success" onclick="window.location.href='{% url 'BookCreate' %}'">新增</button>
         </div>
   </form>
@@ -92,5 +92,6 @@
 
 
 <script src="{% static 'js/bookdelete.js' %}"></script>
+<script src="{% static 'js/clearForm.js' %}"></script>
 
 {% endblock %}

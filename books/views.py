@@ -20,32 +20,28 @@ def book(request):
     students = Student.objects.all()
 
     if request.method == 'POST':
-        book_name = request.POST.get('book-title')
-        category_id = request.POST.get('category_id')
-        borrower_id = request.POST.get('borrower_id')
-        book_status = request.POST.get('book_status')
         form = BookSearchForm(request.POST)
-        # 構建查詢條件
-        conditions = Q()
-        if book_name:
-            conditions &= Q(name__contains=book_name)
-        if category_id:
-            conditions &= Q(category_id=category_id)
-        if borrower_id:
-            conditions &= Q(keeper_id=borrower_id)
-        if book_status:
-            conditions &= Q(status_id=book_status)
-        
-        
-        books = books.filter(conditions)
-        
-
         if form.is_valid():
-            # 在此處理表單提交
-            pass
+            book_name = form.cleaned_data.get('book_title')
+            category_id = form.cleaned_data.get('category_id')
+            borrower_id = form.cleaned_data.get('borrower_id')
+            book_status = form.cleaned_data.get('book_status')
+            conditions = Q()
+            if book_name:
+                conditions &= Q(name__icontains=book_name)
+            if category_id:
+                conditions &= Q(category_id=category_id)
+            if borrower_id:
+                conditions &= Q(keeper_id=borrower_id.id)
+            if book_status:
+                conditions &= Q(status_id=book_status)
+            
+            books = books.filter(conditions)
     else:
         form = BookSearchForm()
+
     return render(request, 'books/book.html', locals())
+
 
 @csrf_exempt
 @login_required(login_url='/login/')
@@ -66,6 +62,7 @@ def book_create(request):
     categories = list(BookCategory.objects.values_list('category_id', 'category_name'))
     usernames = list(Student.objects.values_list('id', 'username'))
     bookstatus = list(BookCode.objects.values_list('code_id', 'code_name'))
+    today = datetime.today()
   
     if request.method == "POST":
         book_name = request.POST.get("book_name")
@@ -78,16 +75,17 @@ def book_create(request):
         borrower_id = request.POST.get("borrower_id")
         book_status = request.POST.get("book_status")
 
-        if price == '':
+        if not price:
             price = None
         else:
             price = int(price)
             
-        if publish_date == '':
+        if not publish_date:
             publish_date = None
             
-        if borrower_id == '':
+        if not borrower_id:
             borrower_id = None
+
         category = BookCategory.objects.get(category_id=category_id)
         status = BookCode.objects.get(code_id=book_status)
         book = BookData(name=book_name, category=category, author=author, publisher=publisher, publish_date=publish_date, summary=summary, price=price, keeper_id=borrower_id, status=status)
@@ -97,6 +95,7 @@ def book_create(request):
             borrower = Student.objects.get(id=borrower_id)
             lendrec = BookLendRecord(book=book, borrow=borrower, borrow_date=datetime.now().date())
             lendrec.save()
+
         return redirect(reverse('Book'))
     
     return render(request, 'books/bookcreate.html', locals())
@@ -125,27 +124,28 @@ def book_edit(request, book_id):
         borrower_id = request.POST.get("borrower_id")
         book_status = request.POST.get("book_status")
         
-        if price == '':
+        if not price:
             price = None
         else:
             price = int(price)
             
-        if publish_date == '':
+        if not publish_date:
             publish_date = None
         
-        if borrower_id == '':
+        if not borrower_id:
             borrower_id = None
             
         category = BookCategory.objects.get(category_id=category_id)
         status = BookCode.objects.get(code_id=book_status)
-        # 更新書籍資料
         BookData.objects.filter(id=book_id).update(name=book_name, category=category, author=author, publisher=publisher, publish_date=publish_date, summary=summary, price=price, keeper_id=borrower_id, status=status)
-        # 如果有借閱者，新增借閱紀錄
+
         if borrower_id:
             borrower = Student.objects.get(id=borrower_id)
             lend_record = BookLendRecord(book=book, borrower=borrower, borrow_date=datetime.now().date())
             lend_record.save()
+
         return redirect(reverse('BookDetails', args=[book.id]))
+    
     return render(request, 'books/bookedit.html', locals())
 
 
@@ -153,15 +153,17 @@ def book_edit(request, book_id):
 def book_details(request, book_id):
     book = get_object_or_404(BookData, id=book_id)
     keeper_name = None
+
     if book.keeper_id:
         keeper = get_object_or_404(Student, id=book.keeper_id)
         keeper_name = keeper.username
+
     return render(request, 'books/details.html', {'book': book, 'keeper_name': keeper_name})
 
 
 @login_required(login_url='/login/')
 def book_lendrec(request, book_id):
     book = get_object_or_404(BookData, id=book_id)
-    lend_records = BookLendRecord.objects.filter(book=book)
-    lend_records = lend_records.order_by('-id')
+    lend_records = BookLendRecord.objects.filter(book=book).order_by('-id')
+    
     return render(request, 'books/booklendrec.html', locals())

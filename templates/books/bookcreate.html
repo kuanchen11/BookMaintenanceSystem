@@ -41,7 +41,7 @@
 
         <div class="col-12">
             <label for="inputAddress" class="form-label">出版日期</label>
-            <input type="date" class="form-control" id="inputAddress" name="publish_date">
+            <input type="date" class="form-control" id="inputAddress" name="publish_date" value="{{ book.publish_date|date:"Y-m-d" }}" max="{{ today|date:"Y-m-d" }}">
         </div>
 
         <div class="col-12">
@@ -53,9 +53,6 @@
             <label for="price" class="form-label">價格</label>
             <input type="number" class="form-control" id="price" min="0" name="price">
         </div>
-
-        <script src="{% static 'js/onlyDigitInput.js' %}"></script>
-
 
         <div class="col-12">
             <label for="borrower" class="form-label">借閱人</label>
@@ -92,5 +89,7 @@
 
 
 <script src="{% static 'js/bookcreate.js' %}"></script>
+<script src="{% static 'js/onlyDigitInput.js' %}"></script>
+
 
 {% endblock %}
